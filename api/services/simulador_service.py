@@ -132,81 +132,317 @@ Pregunta del usuario:
 KNOWLEDGE_BASE: List[Dict[str, str]] = [
     {
         "id": "ia_intro",
-        "title": "¿Qué es la Inteligencia Artificial?",
+        "title": "🤖 ¿Qué es la Inteligencia Artificial?",
         "category": "fundamentos",
-        "content": "La Inteligencia Artificial (IA) es la capacidad de las máquinas para realizar tareas que normalmente requieren inteligencia humana. Incluye aprender de experiencias, reconocer patrones, entender lenguaje natural y tomar decisiones. Ejemplos cotidianos: asistentes virtuales como Siri o Alexa, recomendaciones en Netflix, filtros de spam, reconocimiento facial en teléfonos."
+        "content": """La Inteligencia Artificial (IA) es la capacidad de las máquinas para realizar tareas que normalmente requieren inteligencia humana, como aprender, reconocer patrones, entender el lenguaje y tomar decisiones.
+
+🔍 Ejemplos que usas en tu día a día:
+• Asistentes virtuales como Siri o Alexa que responden a tu voz
+• Recomendaciones de películas en Netflix según tus gustos
+• Filtros de spam que protegen tu correo electrónico
+• Reconocimiento facial para desbloquear tu teléfono
+
+La IA está presente en muchas cosas cotidianas, haciéndonos la vida más fácil y segura."""
     },
     {
         "id": "chatgpt_intro",
-        "title": "¿Qué es ChatGPT?",
+        "title": "💬 ¿Qué es ChatGPT?",
         "category": "fundamentos",
-        "content": "ChatGPT es un asistente de IA desarrollado por OpenAI que puede mantener conversaciones en lenguaje natural. Puede responder preguntas, ayudar a escribir textos, explicar conceptos complicados de forma simple, generar ideas creativas, traducir textos y ayudarte a aprender paso a paso. Funciona procesando el texto que escribes y generando respuestas coherentes basadas en patrones aprendidos."
+        "content": """ChatGPT es un asistente de inteligencia artificial desarrollado por la empresa OpenAI. Es como tener un ayudante muy conocedor con quien puedes conversar escribiendo.
+
+✨ ¿Qué puede hacer por ti?
+• Responder preguntas sobre casi cualquier tema
+• Ayudarte a escribir textos, emails o cartas
+• Explicar conceptos complicados de forma simple
+• Generar ideas creativas para proyectos o regalos
+• Traducir textos a otros idiomas
+• Enseñarte paso a paso cómo hacer cosas
+
+ChatGPT funciona leyendo lo que escribes y generando respuestas coherentes basándose en toda la información con la que fue entrenado."""
     },
     {
         "id": "chatgpt_usos",
-        "title": "Usos prácticos de ChatGPT",
+        "title": "🛠️ Usos prácticos de ChatGPT en tu vida",
         "category": "fundamentos",
-        "content": "ChatGPT puede ayudarte con: Escritura (redactar emails, corregir ortografía, escribir cartas), Aprendizaje (explicar temas, dar ejemplos, responder preguntas paso a paso), Tareas prácticas (crear listas, dar recetas adaptadas, sugerir soluciones), y Creatividad (generar ideas para regalos, escribir poemas, sugerir planes de viaje)."
+        "content": """ChatGPT puede ser tu asistente personal para muchas tareas diarias:
+
+📝 Escritura y comunicación:
+• Redactar emails profesionales o personales
+• Corregir ortografía y gramática
+• Escribir cartas formales o invitaciones
+
+📚 Aprendizaje y conocimiento:
+• Explicar temas que no entiendes
+• Dar ejemplos prácticos
+• Responder dudas paso a paso
+
+🏠 Tareas del hogar y prácticas:
+• Crear listas de compras organizadas
+• Adaptar recetas según tus necesidades
+• Sugerir soluciones a problemas cotidianos
+
+🎨 Creatividad y ocio:
+• Generar ideas para regalos personalizados
+• Escribir poemas o mensajes especiales
+• Planificar viajes o actividades"""
     },
     {
         "id": "prompt_que_es",
-        "title": "¿Qué es un prompt?",
+        "title": "❓ ¿Qué es un prompt?",
         "category": "prompting",
-        "content": "Un 'prompt' es la pregunta o instrucción que le das a ChatGPT. Es como cuando le pides algo a una persona: entre más claro seas, mejor te entenderá. Es la forma de comunicarte con la IA para obtener las respuestas que necesitas."
+        "content": """Un "prompt" es simplemente la pregunta o instrucción que le das a ChatGPT. Es tu forma de comunicarte con la inteligencia artificial.
+
+💡 Piénsalo así:
+Es como cuando le pides algo a una persona: entre más claro y específico seas, mejor te entenderá y mejor será la respuesta que obtengas.
+
+Ejemplo:
+❌ Prompt vago: "Comida"
+✅ Prompt claro: "Dame una receta fácil de pasta para 2 personas"
+
+La diferencia está en ser específico y claro con lo que necesitas."""
     },
     {
         "id": "prompt_consejos",
-        "title": "Consejos para hacer buenos prompts",
+        "title": "✍️ Consejos para hacer buenos prompts",
         "category": "prompting",
-        "content": "Para obtener mejores respuestas: 1) Sé específico ('dame una receta fácil de pasta para 2 personas' en vez de 'háblame de comida'), 2) Da contexto ('Soy principiante en jardinería, ¿qué plantas son fáciles de cuidar?'), 3) Pide el formato que necesitas ('explícamelo de forma sencilla', 'dame una lista con pasos'), 4) Haz preguntas de seguimiento si no entiendes algo."
+        "content": """Sigue estos consejos para obtener mejores respuestas de ChatGPT:
+
+1️⃣ Sé específico y detallado
+   ❌ "Háblame de comida"
+   ✅ "Dame una receta fácil de pasta para 2 personas con ingredientes simples"
+
+2️⃣ Da contexto sobre tu situación
+   ✅ "Soy principiante en jardinería y vivo en departamento. ¿Qué plantas son fáciles de cuidar en macetas?"
+
+3️⃣ Pide el formato que necesitas
+   ✅ "Explícamelo de forma sencilla y paso a paso"
+   ✅ "Dame una lista numerada con los pasos"
+
+4️⃣ Haz preguntas de seguimiento
+   Si algo no queda claro, simplemente pregunta: "¿Podrías explicar mejor esa parte?" o "Dame un ejemplo de eso"
+
+Recuerda: No existe una pregunta tonta. ChatGPT está para ayudarte."""
     },
     {
         "id": "prompt_ejemplos",
-        "title": "Ejemplos de buenos prompts",
+        "title": "📋 Ejemplos de buenos prompts",
         "category": "prompting",
-        "content": "Ejemplos efectivos: 'Explícame qué es WhatsApp como si tuviera 65 años y nunca lo usé', 'Dame 5 consejos para mantener mi computadora segura', 'Ayúdame a escribir un email para cancelar una suscripción', 'Resume este texto en 3 puntos principales', 'Necesito ideas de regalos para mi nieto de 10 años que le gusta la ciencia'."
+        "content": """Aquí tienes ejemplos reales de prompts efectivos que puedes usar:
+
+🎓 Para aprender:
+• "Explícame qué es WhatsApp como si tuviera 65 años y nunca lo usé"
+• "¿Cómo funciona el home banking? Dame los pasos básicos"
+
+🔒 Para seguridad:
+• "Dame 5 consejos para mantener mi computadora segura"
+• "¿Cómo identifico un email falso o estafa?"
+
+✉️ Para escribir:
+• "Ayúdame a escribir un email para cancelar una suscripción"
+• "Redacta una carta para agradecer un favor"
+
+📰 Para resumir:
+• "Resume este texto en 3 puntos principales: [tu texto]"
+
+🎁 Para ideas:
+• "Necesito ideas de regalos para mi nieto de 10 años que le gusta la ciencia"
+• "Sugiéreme actividades para hacer con mis nietos en casa"
+
+¡Copia estos ejemplos y adáptalos a tus necesidades!"""
     },
     {
         "id": "seguridad_basica",
-        "title": "Seguridad básica con IA",
+        "title": "🔐 Seguridad básica al usar ChatGPT",
         "category": "seguridad",
-        "content": "Consejos de seguridad al usar ChatGPT: 1) No compartas información personal sensible (contraseñas, números de tarjetas, documentos), 2) No confíes ciegamente en toda la información - ChatGPT puede equivocarse, 3) Verifica información importante con otras fuentes, 4) Ten cuidado con consejos médicos o legales - consulta profesionales para temas serios."
+        "content": """Es importante usar ChatGPT de forma segura. Sigue estas reglas de oro:
+
+🚫 NUNCA compartas:
+• Contraseñas o PINs
+• Números de tarjetas de crédito o débito
+• Números de documento (DNI, pasaporte)
+• Datos bancarios o financieros
+
+⚠️ Ten en cuenta:
+• ChatGPT puede equivocarse - no confíes ciegamente en toda la información
+• Verifica información importante con otras fuentes
+• Para temas médicos, legales o financieros serios, siempre consulta con profesionales
+
+✅ Úsalo con seguridad para:
+• Aprender cosas nuevas
+• Escribir textos
+• Obtener ideas
+• Practicar habilidades
+
+Recuerda: La seguridad es tu responsabilidad. Si tienes dudas, mejor no compartas la información."""
     },
     {
         "id": "seguridad_privacidad",
-        "title": "Privacidad y datos personales",
+        "title": "🛡️ Protege tu privacidad",
         "category": "seguridad",
-        "content": "Protege tu privacidad: Nunca compartas en ChatGPT tu dirección completa, número de documento, contraseñas, datos bancarios, información médica personal o fotos privadas. Las conversaciones pueden ser revisadas para mejorar el servicio. Trata a ChatGPT como si fuera una conversación en un lugar público."
+        "content": """Tu privacidad es importante. Aprende a protegerla cuando uses ChatGPT:
+
+🔒 NUNCA escribas en ChatGPT:
+• Tu dirección completa
+• Tu número de documento (DNI)
+• Contraseñas de ningún tipo
+• Datos de tarjetas bancarias
+• Información médica personal detallada
+• Fotos privadas tuyas o de tu familia
+
+⚠️ Importante saber:
+Las conversaciones que tienes con ChatGPT pueden ser revisadas por la empresa para mejorar el servicio.
+
+💡 Regla de oro:
+Trata a ChatGPT como si fuera una conversación en un café público. No digas nada que no dirías en voz alta en un lugar con gente alrededor.
+
+✅ Sí puedes compartir:
+• Preguntas generales
+• Textos para editar (sin datos personales)
+• Dudas sobre temas en general
+• Situaciones hipotéticas"""
     },
     {
         "id": "seguridad_estafas",
-        "title": "Cuidado con estafas relacionadas con IA",
+        "title": "⚠️ Cuidado con estafas relacionadas con IA",
         "category": "seguridad",
-        "content": "Ten cuidado con: 1) Sitios falsos que dicen ser ChatGPT oficial y piden datos personales o pagos, 2) Emails o mensajes que dicen venir de OpenAI pidiendo información, 3) Ofertas 'demasiado buenas' generadas por IA, 4) Siempre usa el sitio oficial (chat.openai.com) o aplicaciones verificadas."
+        "content": """Los estafadores también usan la IA. Protégete conociendo estos peligros:
+
+🚨 Ten cuidado con:
+
+1️⃣ Sitios web falsos
+Sitios que imitan a ChatGPT y te piden datos personales o pagos extraños.
+
+2️⃣ Emails o mensajes sospechosos
+Si recibes un email que dice venir de "OpenAI" o "ChatGPT" pidiendo información personal, es probablemente falso.
+
+3️⃣ Ofertas "demasiado buenas"
+"Gana dinero fácil con IA", "Invierte en ChatGPT", etc. Son estafas.
+
+4️⃣ Personas que se hacen pasar por soporte técnico
+Nadie real te va a pedir contraseñas por teléfono o mensaje.
+
+✅ Mantente seguro:
+• Usa SOLO el sitio oficial: chat.openai.com
+• Descarga apps SOLO de tiendas oficiales (Google Play, App Store)
+• Ante la duda, consulta con un familiar de confianza
+• Si algo parece muy bueno para ser verdad, probablemente es una estafa"""
     },
     {
         "id": "limitaciones",
-        "title": "Limitaciones de ChatGPT",
+        "title": "⚖️ Limitaciones que debes conocer",
         "category": "fundamentos",
-        "content": "ChatGPT tiene limitaciones importantes: 1) Su conocimiento tiene fecha de corte y no está actualizado en tiempo real, 2) Puede cometer errores o dar información incorrecta con confianza, 3) No puede acceder a internet, ver imágenes o abrir links, 4) No tiene memoria entre sesiones diferentes, 5) No es un experto médico, legal o financiero - consulta profesionales para temas importantes."
+        "content": """ChatGPT es una herramienta poderosa, pero no es perfecta. Conoce sus limitaciones:
+
+📅 Su conocimiento tiene fecha de corte
+No sabe de eventos muy recientes ni tiene acceso a información actualizada en tiempo real.
+
+❌ Puede cometer errores
+A veces da información incorrecta con mucha confianza. Siempre verifica datos importantes.
+
+🌐 No puede navegar por internet
+No puede abrir links, ver páginas web actuales ni buscar información en tiempo real.
+
+🧠 No tiene memoria entre sesiones
+Cada conversación nueva es como empezar de cero. No recuerda conversaciones anteriores.
+
+⚕️ No reemplaza a profesionales
+NO es un médico, abogado o asesor financiero. Para temas importantes de salud, legales o de dinero, consulta con expertos reales.
+
+🤖 Es una máquina, no una persona
+No tiene sentimientos, opiniones personales ni experiencias reales. Genera respuestas basándose en patrones de texto.
+
+💡 Úsalo como lo que es: una herramienta de ayuda, no una fuente de verdad absoluta."""
     },
     {
         "id": "curso_edad",
-        "title": "ChatGPT para adultos mayores",
+        "title": "👴👵 Este curso es para ti",
         "category": "curso",
-        "content": "Este curso está diseñado especialmente para personas mayores de 60 años que quieren aprender a usar ChatGPT. No necesitas conocimientos técnicos previos. Aprenderás a tu ritmo con ejemplos prácticos y útiles para tu vida diaria. El simulador te permite practicar sin presión y sin miedo a equivocarte."
+        "content": """¡Bienvenido! Este curso está diseñado especialmente para personas mayores de 60 años que quieren aprender sobre inteligencia artificial y ChatGPT.
+
+✨ Lo que nos hace especiales:
+
+🎯 Sin conocimientos previos necesarios
+No importa si no sabes de tecnología. Empezamos desde cero.
+
+⏰ Aprendes a tu propio ritmo
+Sin presiones, sin apuros. Tómate el tiempo que necesites.
+
+💼 Ejemplos prácticos y útiles
+Todo lo que aprendas podrás aplicarlo en tu vida diaria.
+
+🎮 Práctica sin miedo
+Este simulador te permite practicar libremente. No hay forma de "romper" nada o equivocarte de forma permanente.
+
+🤝 Lenguaje claro y cercano
+Sin tecnicismos complicados. Si usamos algún término técnico, te lo explicamos con ejemplos simples.
+
+Recuerda: Nunca es tarde para aprender algo nuevo. ¡Estás en el lugar correcto!"""
     },
     {
         "id": "curso_beneficios",
-        "title": "Beneficios de aprender IA a tu edad",
+        "title": "🌟 Beneficios de aprender IA en esta etapa",
         "category": "curso",
-        "content": "Aprender a usar ChatGPT te ayudará a: 1) Mantenerte actualizado con la tecnología, 2) Comunicarte mejor por escrito, 3) Encontrar información rápidamente, 4) Ayudar a tus nietos con tareas escolares, 5) Aprender nuevas habilidades a tu ritmo, 6) Mantener tu mente activa y ejercitar la creatividad."
+        "content": """Aprender a usar ChatGPT te traerá muchos beneficios en tu vida diaria:
+
+💻 Te mantiene actualizado con la tecnología
+La tecnología avanza rápido. Con este curso te mantienes al día.
+
+✍️ Mejora tu comunicación escrita
+Aprende a redactar mejor emails, cartas y mensajes.
+
+🔍 Encuentra información rápidamente
+Ya no necesitas buscar en muchos sitios. Pregunta y obtén respuestas al instante.
+
+👨‍👩‍👧‍👦 Conecta con tus nietos
+Ayúdalos con tareas escolares o entiende mejor de qué hablan cuando mencionan "la IA".
+
+📚 Aprende nuevas habilidades
+Desde cocina hasta jardinería, ChatGPT puede enseñarte paso a paso.
+
+🧠 Mantén tu mente activa
+Aprender cosas nuevas ejercita tu cerebro y mantiene tu mente ágil.
+
+🎨 Despierta tu creatividad
+Escribe poemas, genera ideas para proyectos, planifica actividades especiales.
+
+🆓 Es gratis practicar
+Este simulador es completamente gratuito para que practiques sin límites.
+
+La tecnología no es solo para jóvenes. ¡Es para todos!"""
     },
     {
         "id": "primeros_pasos",
-        "title": "Primeros pasos con ChatGPT",
+        "title": "🚀 Tus primeros pasos con ChatGPT",
         "category": "curso",
-        "content": "Para empezar: 1) Practica con este simulador sin presión, 2) Empieza con preguntas simples (¿Qué es...? ¿Cómo puedo...?), 3) Lee las respuestas con calma, 4) Haz preguntas de seguimiento si algo no queda claro, 5) No te preocupes por cometer errores - es parte del aprendizaje, 6) Experimenta y diviértete aprendiendo."
+        "content": """¿Listo para empezar? Sigue estos pasos simples para comenzar tu aventura con ChatGPT:
+
+1️⃣ Practica aquí sin presión
+Este simulador está hecho para que experimentes libremente. No hay forma de hacer algo "mal".
+
+2️⃣ Empieza con preguntas simples
+Prueba con cosas como:
+• "¿Qué es...?"
+• "¿Cómo puedo...?"
+• "Explícame..."
+
+3️⃣ Lee las respuestas con calma
+No hay apuro. Tómate tu tiempo para entender cada respuesta.
+
+4️⃣ Haz preguntas de seguimiento
+Si algo no queda claro, simplemente pregunta:
+• "¿Podrías explicar mejor esa parte?"
+• "Dame un ejemplo de eso"
+• "¿Hay una forma más simple de hacerlo?"
+
+5️⃣ No temas equivocarte
+Los errores son parte del aprendizaje. Cada pregunta te hace aprender algo nuevo.
+
+6️⃣ Experimenta y diviértete
+Prueba diferentes tipos de preguntas. ¡Sorpréndete con lo que puedes hacer!
+
+💡 Consejo: Guarda las respuestas útiles que recibas. Cópialas a un documento para consultarlas después.
+
+Recuerda: Todos empezamos como principiantes. ¡Tú puedes hacerlo!"""
     }
 ]
 
