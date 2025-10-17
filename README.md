@@ -5,7 +5,12 @@ API backend para un simulador de ChatGPT diseñado para capacitar a personas may
 ## 🚀 Características
 
 - **Simulador de Chat**: Endpoint que simula conversaciones con ChatGPT
-- **Sistema RAG**: Base de conocimiento sobre IA, ChatGPT, prompting y seguridad
+  - Respuestas breves y adaptadas para adultos mayores
+  - System prompt que optimiza las respuestas
+- **Sistema RAG Híbrido**: Base de conocimiento + IA como fallback
+  - Busca primero en knowledge base local (13 documentos)
+  - Si no encuentra respuesta, consulta con Gemini
+  - Respuestas breves y contextualizadas al curso
 - **Diseñado para adultos mayores**: Contenido adaptado y explicaciones claras
 - **Modo simulación**: Funciona sin API key para práctica segura
 

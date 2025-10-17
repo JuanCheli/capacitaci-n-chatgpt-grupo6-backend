@@ -53,23 +53,44 @@ async def chat_simulate(prompt: str) -> Dict[str, Any]:
     
     if model is not None:
         try:
-            # Llamada real a Gemini API
+            # Llamada real a Gemini API con instrucciones para respuestas breves
             logger.info(f"Enviando prompt a Gemini: {prompt[:50]}...")
+            
+            # Agregar instrucciones de sistema para respuestas breves
+            enhanced_prompt = f"""Eres un asistente educativo para adultos mayores (+60 años) aprendiendo sobre inteligencia artificial y ChatGPT. 
+
+IMPORTANTE: Da respuestas BREVES y CLARAS (máximo 3-4 párrafos). Usa lenguaje simple sin tecnicismos. Si es necesario explicar algo técnico, hazlo con analogías cotidianas.
+
+Pregunta del usuario:
+{prompt}"""
             
             # Generar respuesta de forma asíncrona
             response = await asyncio.to_thread(
-                lambda: model.generate_content(prompt)
+                lambda: model.generate_content(enhanced_prompt)
             )
             
             reply = response.text if hasattr(response, 'text') else str(response)
             
             logger.info("✅ Respuesta recibida de Gemini")
             
+            # Extraer metadatos de uso de forma segura
+            tokens_info = None
+            if hasattr(response, 'usage_metadata'):
+                try:
+                    usage = response.usage_metadata
+                    tokens_info = {
+                        "prompt_tokens": getattr(usage, 'prompt_token_count', 0),
+                        "candidates_tokens": getattr(usage, 'candidates_token_count', 0),
+                        "total_tokens": getattr(usage, 'total_token_count', 0)
+                    }
+                except Exception as e:
+                    logger.warning(f"No se pudo extraer usage_metadata: {e}")
+            
             return {
                 "model": settings.GEMINI_MODEL,
                 "reply": reply,
                 "is_simulated": False,
-                "tokens_used": getattr(response, 'usage_metadata', None)
+                "tokens_used": tokens_info
             }
             
         except Exception as e:
@@ -184,6 +205,7 @@ KNOWLEDGE_BASE: List[Dict[str, str]] = [
 
 async def rag_answer(question: str) -> Dict[str, Any]:
     """Busca en la base de conocimiento y devuelve respuestas relevantes.
+    Si no encuentra respuesta en el KNOWLEDGE_BASE, consulta con Gemini.
     Sistema RAG simple para preguntas frecuentes del curso.
     """
     if not question or not question.strip():
@@ -208,25 +230,76 @@ async def rag_answer(question: str) -> Dict[str, Any]:
             seen.add(doc["id"])
             unique_matches.append(doc)
     
-    if not unique_matches:
+    # Si hay resultados en la base de conocimiento, devolverlos
+    if unique_matches:
+        # Limitar a los 3 resultados más relevantes
+        top_matches = unique_matches[:3]
+        
+        # Construir respuesta combinando la información
+        answer_parts = []
+        for i, doc in enumerate(top_matches, 1):
+            answer_parts.append(f"{i}. {doc['title']}\n{doc['content']}")
+        
+        combined_answer = "\n\n".join(answer_parts)
+        
         return {
-            "answer": "No encontré información específica sobre esa pregunta en nuestra base de conocimiento del curso. ¿Podrías reformular tu pregunta o preguntar sobre: inteligencia artificial, ChatGPT, prompts, seguridad o el curso?",
-            "sources": [],
-            "total_results": 0
+            "answer": combined_answer,
+            "sources": [{"id": doc["id"], "title": doc["title"], "category": doc["category"]} for doc in top_matches],
+            "total_results": len(top_matches),
+            "source_type": "knowledge_base"
         }
     
-    # Limitar a los 3 resultados más relevantes
-    top_matches = unique_matches[:3]
+    # No hay resultados en KB - intentar con Gemini
+    logger.info(f"No se encontró respuesta en KB para: {question[:50]}... Consultando con Gemini")
     
-    # Construir respuesta combinando la información
-    answer_parts = []
-    for i, doc in enumerate(top_matches, 1):
-        answer_parts.append(f"{i}. {doc['title']}\n{doc['content']}")
+    model = _initialize_gemini()
     
-    combined_answer = "\n\n".join(answer_parts)
+    if model is not None:
+        try:
+            # Usar Gemini como fallback con contexto del curso
+            enhanced_question = f"""Eres un instructor de un curso sobre inteligencia artificial y ChatGPT para adultos mayores (+60 años).
+
+La pregunta es sobre el curso o temas relacionados con IA, ChatGPT, prompting o seguridad digital.
+
+IMPORTANTE: 
+- Responde de forma BREVE (máximo 2-3 párrafos)
+- Usa lenguaje SIMPLE y CLARO, sin tecnicismos
+- Si usas términos técnicos, explícalos con ejemplos cotidianos
+- Enfócate en aplicaciones prácticas para adultos mayores
+
+Pregunta:
+{question}"""
+            
+            logger.info(f"Consultando Gemini para RAG: {question[:30]}...")
+            
+            response = await asyncio.to_thread(
+                lambda: model.generate_content(enhanced_question)
+            )
+            
+            reply = response.text if hasattr(response, 'text') else str(response)
+            
+            logger.info("✅ Respuesta RAG recibida de Gemini")
+            
+            return {
+                "answer": reply,
+                "sources": [],
+                "total_results": 1,
+                "source_type": "gemini_ai"
+            }
+            
+        except Exception as e:
+            logger.error(f"❌ Error al consultar Gemini para RAG: {e}")
+            return {
+                "answer": f"No encontré información específica en nuestra base de conocimiento y ocurrió un error al consultar con la IA: {str(e)}. Por favor, intenta reformular tu pregunta o pregunta sobre: inteligencia artificial, ChatGPT, prompts, seguridad o el curso.",
+                "sources": [],
+                "total_results": 0,
+                "source_type": "error"
+            }
     
+    # Sin Gemini disponible - mensaje de fallback
     return {
-        "answer": combined_answer,
-        "sources": [{"id": doc["id"], "title": doc["title"], "category": doc["category"]} for doc in top_matches],
-        "total_results": len(top_matches)
+        "answer": "No encontré información específica sobre esa pregunta en nuestra base de conocimiento del curso. ¿Podrías reformular tu pregunta o preguntar sobre: inteligencia artificial, ChatGPT, prompts, seguridad o el curso?\n\n💡 Consejo: Para obtener respuestas más precisas sobre temas fuera del curso, configura GEMINI_API_KEY en el archivo .env",
+        "sources": [],
+        "total_results": 0,
+        "source_type": "not_found"
     }

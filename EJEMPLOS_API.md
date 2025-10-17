@@ -200,7 +200,7 @@ POST /simulador/rag
 }
 ```
 
-### RAG (con resultados)
+### RAG (con resultados en KB)
 ```json
 {
   "answer": "1. Consejos para hacer buenos prompts\nPara obtener mejores respuestas...",
@@ -211,15 +211,27 @@ POST /simulador/rag
       "category": "prompting"
     }
   ],
-  "total_results": 2
+  "total_results": 2,
+  "source_type": "knowledge_base"
 }
 ```
 
-### RAG (sin resultados)
+### RAG (respuesta de Gemini - no encontrado en KB)
+```json
+{
+  "answer": "Una respuesta breve y clara generada por Gemini sobre el tema consultado...",
+  "sources": [],
+  "total_results": 1,
+  "source_type": "gemini_ai"
+}
+```
+
+### RAG (sin resultados ni API)
 ```json
 {
   "answer": "No encontré información específica sobre esa pregunta...",
   "sources": [],
-  "total_results": 0
+  "total_results": 0,
+  "source_type": "not_found"
 }
 ```
