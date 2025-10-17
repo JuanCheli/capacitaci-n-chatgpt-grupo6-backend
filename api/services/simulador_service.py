@@ -490,7 +490,7 @@ Este es un curso práctico que enseña a personas mayores a usar ChatGPT y enten
 Pregunta del estudiante:
 {question}
 
-Responde de forma clara, práctica y motivadora. Si la pregunta no está relacionada con el curso, redirígela amablemente hacia los temas del curso."""
+Responde de forma clara, práctica y motivadora. Si la pregunta no está relacionada con el curso, redirígela amablemente hacia los temas del curso. SEA BREVE Y CONCISO"""
             
             logger.info(f"Consultando Gemini RAG para: {question[:50]}...")
             
