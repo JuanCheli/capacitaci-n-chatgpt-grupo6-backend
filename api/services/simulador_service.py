@@ -57,9 +57,14 @@ async def chat_simulate(prompt: str) -> Dict[str, Any]:
             logger.info(f"Enviando prompt a Gemini: {prompt[:50]}...")
             
             # Agregar instrucciones de sistema para respuestas breves
-            enhanced_prompt = f"""Eres un asistente educativo para adultos mayores (+60 años) aprendiendo sobre inteligencia artificial y ChatGPT. 
+            # El chat es para PRÁCTICA LIBRE, puede hablar de cualquier tema
+            enhanced_prompt = f"""Eres un asistente amigable y útil. Puedes ayudar con cualquier tema que el usuario necesite.
 
-IMPORTANTE: Da respuestas BREVES y CLARAS (máximo 3-4 párrafos). Usa lenguaje simple sin tecnicismos. Si es necesario explicar algo técnico, hazlo con analogías cotidianas.
+IMPORTANTE: 
+- Da respuestas BREVES y CLARAS (máximo 3-4 párrafos)
+- Usa lenguaje SIMPLE y accesible
+- Si explicas conceptos técnicos, usa ejemplos cotidianos
+- Sé paciente y alentador
 
 Pregunta del usuario:
 {prompt}"""
@@ -107,10 +112,13 @@ Pregunta del usuario:
     
     reply = (
         f"¡Hola! Soy el simulador de ChatGPT. Has preguntado: '{prompt[:200]}'\n\n"
-        "💡 Consejo: Formula preguntas claras y específicas. "
-        "Puedes hacer preguntas de seguimiento para profundizar en cualquier tema. "
-        "Recuerda que puedo ayudarte con: explicaciones, ejemplos, pasos para realizar tareas, y más.\n\n"
-        "📝 Nota: Estás en modo simulación. Para usar Gemini real, configura GEMINI_API_KEY en el archivo .env"
+        "Este es un espacio de práctica donde puedes hacer cualquier pregunta o solicitud. "
+        "Puedes pedirme que te ayude a escribir textos, explicarte conceptos, darte ideas, "
+        "o cualquier otra cosa que se te ocurra.\n\n"
+        "💡 Consejo: Formula preguntas claras y específicas. Puedes hacer preguntas de seguimiento "
+        "para profundizar en cualquier tema.\n\n"
+        "📝 Nota: Estás en modo simulación. Para usar respuestas reales de IA, "
+        "configura GEMINI_API_KEY en el archivo .env"
     )
     
     return {
