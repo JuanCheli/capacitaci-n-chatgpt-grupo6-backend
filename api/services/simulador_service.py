@@ -448,73 +448,51 @@ Recuerda: Todos empezamos como principiantes. ¡Tú puedes hacerlo!"""
 
 
 async def rag_answer(question: str) -> Dict[str, Any]:
-    """Busca en la base de conocimiento y devuelve respuestas relevantes.
-    Si no encuentra respuesta en el KNOWLEDGE_BASE, consulta con Gemini.
-    Sistema RAG simple para preguntas frecuentes del curso.
+    """Responde preguntas sobre el curso de IA y ChatGPT usando Gemini.
+    Sistema RAG que consulta directamente con Gemini para respuestas dinámicas
+    y personalizadas según cada pregunta del estudiante.
     """
     if not question or not question.strip():
         return {"error": "La pregunta está vacía"}
-
-    q = question.lower()
     
-    # Búsqueda por coincidencia de palabras clave
-    matches = []
-    for doc in KNOWLEDGE_BASE:
-        # Buscar en título y contenido
-        if (q in doc["title"].lower() or 
-            q in doc["content"].lower() or
-            any(word in doc["content"].lower() for word in q.split() if len(word) > 3)):
-            matches.append(doc)
-    
-    # Eliminar duplicados manteniendo orden
-    seen = set()
-    unique_matches = []
-    for doc in matches:
-        if doc["id"] not in seen:
-            seen.add(doc["id"])
-            unique_matches.append(doc)
-    
-    # Si hay resultados en la base de conocimiento, devolverlos
-    if unique_matches:
-        # Limitar a los 3 resultados más relevantes
-        top_matches = unique_matches[:3]
-        
-        # Construir respuesta combinando la información
-        answer_parts = []
-        for i, doc in enumerate(top_matches, 1):
-            answer_parts.append(f"{i}. {doc['title']}\n{doc['content']}")
-        
-        combined_answer = "\n\n".join(answer_parts)
-        
-        return {
-            "answer": combined_answer,
-            "sources": [{"id": doc["id"], "title": doc["title"], "category": doc["category"]} for doc in top_matches],
-            "total_results": len(top_matches),
-            "source_type": "knowledge_base"
-        }
-    
-    # No hay resultados en KB - intentar con Gemini
-    logger.info(f"No se encontró respuesta en KB para: {question[:50]}... Consultando con Gemini")
-    
+    # Usar Gemini directamente con un prompt optimizado para la capacitación
     model = _initialize_gemini()
     
     if model is not None:
         try:
-            # Usar Gemini como fallback con contexto del curso
-            enhanced_question = f"""Eres un instructor de un curso sobre inteligencia artificial y ChatGPT para adultos mayores (+60 años).
+            # Prompt especializado para el curso de capacitación
+            enhanced_question = f"""Eres un instructor experto y paciente de un curso sobre inteligencia artificial y ChatGPT, diseñado específicamente para adultos mayores de 60 años.
 
-La pregunta es sobre el curso o temas relacionados con IA, ChatGPT, prompting o seguridad digital.
+🎯 CONTEXTO DEL CURSO:
+Este es un curso práctico que enseña a personas mayores a usar ChatGPT y entender conceptos básicos de IA. Los estudiantes no tienen conocimientos técnicos previos.
 
-IMPORTANTE: 
-- Responde de forma BREVE (máximo 2-3 párrafos)
-- Usa lenguaje SIMPLE y CLARO, sin tecnicismos
-- Si usas términos técnicos, explícalos con ejemplos cotidianos
-- Enfócate en aplicaciones prácticas para adultos mayores
+📚 TEMAS DEL CURSO:
+• Fundamentos de IA: Qué es, cómo funciona, ejemplos cotidianos
+• ChatGPT: Qué es, qué puede hacer, usos prácticos en la vida diaria
+• Prompting: Cómo hacer buenas preguntas, técnicas, ejemplos
+• Seguridad: Privacidad, datos personales, cuidado con estafas
+• Beneficios: Por qué aprender IA a esta edad, aplicaciones prácticas
 
-Pregunta:
-{question}"""
+✍️ ESTILO DE RESPUESTA:
+- Usa lenguaje SIMPLE y CERCANO, sin tecnicismos
+- Máximo 2-3 párrafos cortos y directos
+- Incluye emojis para hacer la respuesta más amigable (1-2 emojis máximo)
+- Usa ejemplos COTIDIANOS que adultos mayores puedan relacionar
+- Sé ALENTADOR y MOTIVADOR
+- Si explicas algo técnico, compáralo con situaciones de la vida real
+
+❌ EVITA:
+- Términos técnicos complejos (o explícalos de forma muy simple)
+- Respuestas largas y densas
+- Jerga de internet o tecnológica
+- Asumir conocimientos previos
+
+Pregunta del estudiante:
+{question}
+
+Responde de forma clara, práctica y motivadora. Si la pregunta no está relacionada con el curso, redirígela amablemente hacia los temas del curso."""
             
-            logger.info(f"Consultando Gemini para RAG: {question[:30]}...")
+            logger.info(f"Consultando Gemini RAG para: {question[:50]}...")
             
             response = await asyncio.to_thread(
                 lambda: model.generate_content(enhanced_question)
@@ -526,7 +504,7 @@ Pregunta:
             
             return {
                 "answer": reply,
-                "sources": [],
+                "sources": [{"type": "gemini_ai", "note": "Respuesta generada por IA especializada en capacitación"}],
                 "total_results": 1,
                 "source_type": "gemini_ai"
             }
@@ -534,15 +512,31 @@ Pregunta:
         except Exception as e:
             logger.error(f"❌ Error al consultar Gemini para RAG: {e}")
             return {
-                "answer": f"No encontré información específica en nuestra base de conocimiento y ocurrió un error al consultar con la IA: {str(e)}. Por favor, intenta reformular tu pregunta o pregunta sobre: inteligencia artificial, ChatGPT, prompts, seguridad o el curso.",
+                "answer": f"Ocurrió un error al procesar tu pregunta: {str(e)}. Por favor, intenta nuevamente o reformula tu pregunta.",
                 "sources": [],
                 "total_results": 0,
                 "source_type": "error"
             }
     
-    # Sin Gemini disponible - mensaje de fallback
+    # Sin Gemini disponible - mensaje de fallback con información útil
+    fallback_answer = f"""💡 **Sobre tu pregunta: "{question}"**
+
+Para responder preguntas del curso, necesito que configures la API de Gemini.
+
+📚 **Temas del curso que puedo ayudarte:**
+• ¿Qué es la Inteligencia Artificial?
+• ¿Qué es y cómo usar ChatGPT?
+• Cómo hacer buenas preguntas (prompts)
+• Seguridad y privacidad al usar IA
+• Beneficios de aprender IA para adultos mayores
+
+🔧 **Para activar las respuestas reales:**
+Configura GEMINI_API_KEY en el archivo .env
+
+¿Tienes alguna otra pregunta sobre estos temas?"""
+    
     return {
-        "answer": "No encontré información específica sobre esa pregunta en nuestra base de conocimiento del curso. ¿Podrías reformular tu pregunta o preguntar sobre: inteligencia artificial, ChatGPT, prompts, seguridad o el curso?\n\n💡 Consejo: Para obtener respuestas más precisas sobre temas fuera del curso, configura GEMINI_API_KEY en el archivo .env",
+        "answer": fallback_answer,
         "sources": [],
         "total_results": 0,
         "source_type": "not_found"
